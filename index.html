@@ -1,0 +1,290 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+.app{font-family:'Inter',sans-serif;background:#f8f9fb;min-height:640px;padding:28px 24px;color:#0d0d1a;position:relative;overflow:hidden}
+.page-title{font-size:20px;font-weight:600;color:#0d0d1a;margin-bottom:4px}
+.page-sub{font-size:13px;color:#717182;margin-bottom:24px;line-height:1.5}
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);padding:20px 20px 20px}
+.card+.card,.card+.filter-card,.filter-card+.card{margin-top:14px}
+.filter-card{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.07),0 1px 2px rgba(0,0,0,0.04);padding:14px 20px;display:flex;align-items:center;gap:12px}
+.section-title{font-size:14px;font-weight:600;color:#0d0d1a;margin-bottom:14px}
+.seed-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.seed-btn{border-radius:8px;border:2px solid #e5e7eb;background:#fff;padding:14px;text-align:left;cursor:pointer;transition:border-color .15s,background .15s;width:100%}
+.seed-btn:hover{border-color:#b0bcfc}
+.seed-btn.active{border-color:#4A6CF7;background:#f0f4ff}
+.seed-avatar{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:#fff;margin-bottom:10px;flex-shrink:0}
+.seed-row-inner{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.seed-name{font-size:13px;font-weight:500;color:#0d0d1a;line-height:1.3}
+.seed-handle{display:flex;align-items:center;gap:4px;font-size:12px;color:#717182;margin-top:1px}
+.seed-pills{display:flex;gap:6px;flex-wrap:wrap}
+.seed-pill{background:#f3f4f6;border-radius:20px;padding:3px 9px;font-size:11px;color:#374151}
+.filter-label{font-size:13px;color:#717182;white-space:nowrap}
+.chips{display:flex;gap:8px}
+.chip{padding:5px 14px;border-radius:20px;border:none;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;font-family:'Inter',sans-serif}
+.chip.inactive{background:#f3f4f6;color:#374151}
+.chip.inactive:hover{background:#e9ebef}
+.chip.active-chip{background:#4A6CF7;color:#fff}
+.list-header{font-size:14px;font-weight:600;color:#0d0d1a;margin-bottom:14px}
+.creator-item{border:1px solid #e9ebef;border-radius:8px;padding:14px 14px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .15s,box-shadow .15s;margin-bottom:10px;background:#fff;animation:fadeUp .25s ease both}
+.creator-item:last-child{margin-bottom:0}
+.creator-item:hover{border-color:#c7d2fe;box-shadow:0 2px 8px rgba(74,108,247,0.08)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.cr-avatar{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;color:#fff;flex-shrink:0}
+.cr-info{flex:1;min-width:0}
+.cr-top{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.cr-name{font-size:14px;font-weight:600;color:#0d0d1a}
+.cr-badge{background:#4A6CF7;color:#fff;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;white-space:nowrap}
+.cr-handle-row{display:flex;align-items:center;gap:5px;font-size:12px;color:#717182;margin-bottom:8px}
+.cr-stats{display:flex;gap:6px;flex-wrap:wrap}
+.stat-pill{background:#f3f4f6;border-radius:20px;padding:3px 9px;font-size:11px;color:#374151}
+.stat-pill span{color:#717182;margin-right:2px}
+.cr-actions{display:flex;gap:8px;flex-shrink:0}
+.btn-save{padding:7px 14px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:12px;font-weight:500;color:#374151;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:'Inter',sans-serif;transition:all .15s}
+.btn-save:hover{border-color:#9ca3af}
+.btn-save.saved-state{border-color:#22c55e;background:#f0fdf4;color:#16a34a}
+.btn-req{padding:7px 14px;border-radius:8px;border:none;background:#4A6CF7;color:#fff;font-size:12px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px;white-space:nowrap;font-family:'Inter',sans-serif;transition:background .15s}
+.btn-req:hover{background:#3858e9}
+.btn-req.sent-state{background:#22c55e}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 20px;gap:12px}
+.empty-icon{width:56px;height:56px;border-radius:50%;background:#f3f4f6;display:flex;align-items:center;justify-content:center}
+.empty-text{font-size:13px;color:#717182;text-align:center}
+.plat-icon{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px}
+.plat-ig{background:#fde8f7;color:#c13a8e}
+.plat-tt{background:#e8f5fe;color:#006aff}
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,0.18);z-index:10;transition:opacity .2s}
+.drawer{position:absolute;right:0;top:0;bottom:0;width:340px;background:#fff;box-shadow:-4px 0 24px rgba(0,0,0,0.10);z-index:11;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s cubic-bezier(.32,.72,0,1)}
+.drawer.open{transform:none}
+.drawer-head{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid #e9ebef}
+.drawer-title{font-size:15px;font-weight:600;color:#0d0d1a}
+.close-btn{width:30px;height:30px;border-radius:7px;border:1px solid #e5e7eb;background:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;color:#717182;font-family:'Inter',sans-serif}
+.close-btn:hover{background:#f9fafb}
+.drawer-body{flex:1;overflow-y:auto;padding:20px}
+.drawer-creator-row{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.similar-box{background:#eff6ff;border-radius:8px;padding:12px 14px;margin-bottom:18px}
+.similar-label{font-size:11px;color:#717182;margin-bottom:4px;font-weight:500}
+.similar-row{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;color:#0d0d1a}
+.similar-arrow{color:#4A6CF7;font-size:14px}
+.similar-note{font-size:11px;color:#717182;margin-left:4px;font-weight:400}
+.interests-title{font-size:13px;font-weight:600;color:#0d0d1a;margin-bottom:12px}
+.donut-wrap{position:relative;width:160px;height:160px;margin:0 auto 16px}
+.donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none}
+.donut-pct{font-size:22px;font-weight:600;color:#0d0d1a}
+.donut-lbl{font-size:10px;color:#717182;font-weight:400;text-align:center;line-height:1.3}
+.interest-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.interest-left{display:flex;align-items:center;gap:8px;font-size:13px;color:#374151}
+.interest-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.interest-val{font-size:13px;font-weight:500;color:#0d0d1a}
+.btn-outreach{width:100%;padding:11px;border-radius:8px;border:none;background:#4A6CF7;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-top:20px;transition:background .15s}
+.btn-outreach:hover{background:#3858e9}
+.btn-outreach.done{background:#22c55e}
+.outreach-confirm{text-align:center;font-size:12px;color:#22c55e;margin-top:6px;min-height:18px}
+</style>
+
+<h2 style="text-align:center;font-family:'Inter',sans-serif;font-size:15px;font-weight:600;color:#0d0d1a;padding:16px 0 4px;">Recommended Creators: TINT Creator Lookalike Engine prototype</h2>
+
+<div class="app" id="app">
+  <div class="page-title">Recommended Creators</div>
+  <div class="page-sub">Discover new influencer leads based on audience similarity to your top-performing community members</div>
+
+  <div class="card">
+    <div class="section-title">Select a Top Creator</div>
+    <div class="seed-grid" id="seedGrid"></div>
+  </div>
+
+  <div class="filter-card" id="filterCard" style="display:none">
+    <span class="filter-label">Filter by:</span>
+    <div class="chips" id="chips">
+      <button class="chip active-chip" data-filter="audience-match" onclick="toggleChip(this)">Audience Match</button>
+      <button class="chip inactive" data-filter="engagement-rate" onclick="toggleChip(this)">Engagement Rate</button>
+      <button class="chip inactive" data-filter="platform-fit" onclick="toggleChip(this)">Platform Fit</button>
+    </div>
+  </div>
+
+  <div class="card" id="listCard">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/><path d="M11 8v6M8 11h6"/></svg></div>
+      <p class="empty-text">Select a top creator to generate recommendations</p>
+    </div>
+    <div id="listHeader" style="display:none" class="list-header">Recommended Creators</div>
+    <div id="creatorList"></div>
+  </div>
+
+  <div class="overlay" id="overlay" style="display:none;opacity:0" onclick="closeDrawer()"></div>
+  <div class="drawer" id="drawer">
+    <div class="drawer-head">
+      <span class="drawer-title">Creator Details</span>
+      <button class="close-btn" onclick="closeDrawer()" aria-label="Close">✕</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const SEEDS=[
+  {id:'seed-1',name:'Sarah Chen',handle:'@sarahglowskin',platform:'instagram',followers:'882.4K',eng:'8.2%',grad:'linear-gradient(135deg,#a78bfa,#818cf8)'},
+  {id:'seed-2',name:'Maya Wellness',handle:'@mayawellness',platform:'instagram',followers:'624.1K',eng:'6.9%',grad:'linear-gradient(135deg,#34d399,#059669)'},
+  {id:'seed-3',name:'Lily Beauty',handle:'@lilybeauty',platform:'tiktok',followers:'1.2M',eng:'12.4%',grad:'linear-gradient(135deg,#f472b6,#ec4899)'},
+];
+const RECS={
+  'seed-1':[
+    {id:'rec-1-1',name:'Emma Radiance',handle:'@emmaradiance',platform:'instagram',score:94,followers:'756K',eng:'7.8%',overlap:'82%',grad:'linear-gradient(135deg,#60a5fa,#6366f1)',engN:7.8,platN:92},
+    {id:'rec-1-2',name:'Jade Skincare',handle:'@jadeskincare',platform:'instagram',score:91,followers:'891K',eng:'6.4%',overlap:'78%',grad:'linear-gradient(135deg,#34d399,#0d9488)',engN:6.4,platN:89},
+    {id:'rec-1-3',name:'Bloom Wellness',handle:'@bloomwellness',platform:'tiktok',score:88,followers:'1.4M',eng:'11.2%',overlap:'74%',grad:'linear-gradient(135deg,#f472b6,#f43f5e)',engN:11.2,platN:85},
+    {id:'rec-1-4',name:'Sofia Glow',handle:'@sofiaglow',platform:'instagram',score:86,followers:'643K',eng:'8.1%',overlap:'71%',grad:'linear-gradient(135deg,#fbbf24,#f97316)',engN:8.1,platN:88},
+    {id:'rec-1-5',name:'Aria Beauty',handle:'@ariabeauty',platform:'tiktok',score:83,followers:'982K',eng:'9.6%',overlap:'68%',grad:'linear-gradient(135deg,#a78bfa,#9333ea)',engN:9.6,platN:84},
+  ],
+  'seed-2':[
+    {id:'rec-2-1',name:'Serenity Health',handle:'@serenityhealth',platform:'instagram',score:92,followers:'588K',eng:'8.3%',overlap:'85%',grad:'linear-gradient(135deg,#22d3ee,#3b82f6)',engN:8.3,platN:90},
+    {id:'rec-2-2',name:'Luna Wellness Co',handle:'@lunawellness',platform:'instagram',score:89,followers:'712K',eng:'7.1%',overlap:'79%',grad:'linear-gradient(135deg,#818cf8,#2563eb)',engN:7.1,platN:87},
+    {id:'rec-2-3',name:'Mindful Living',handle:'@mindfulliving',platform:'tiktok',score:87,followers:'1.1M',eng:'10.8%',overlap:'76%',grad:'linear-gradient(135deg,#4ade80,#10b981)',engN:10.8,platN:83},
+    {id:'rec-2-4',name:'Harmony Rituals',handle:'@harmonyrituals',platform:'instagram',score:84,followers:'524K',eng:'6.9%',overlap:'73%',grad:'linear-gradient(135deg,#c084fc,#e879f9)',engN:6.9,platN:86},
+    {id:'rec-2-5',name:'Pure Wellness',handle:'@purewellness',platform:'instagram',score:81,followers:'668K',eng:'7.4%',overlap:'69%',grad:'linear-gradient(135deg,#2dd4bf,#22d3ee)',engN:7.4,platN:85},
+  ],
+  'seed-3':[
+    {id:'rec-3-1',name:'Glow by Grace',handle:'@glowbygrace',platform:'tiktok',score:96,followers:'1.3M',eng:'13.2%',overlap:'88%',grad:'linear-gradient(135deg,#fb7185,#f472b6)',engN:13.2,platN:94},
+    {id:'rec-3-2',name:'Beauty Maven',handle:'@beautymaven',platform:'tiktok',score:93,followers:'1.6M',eng:'11.9%',overlap:'84%',grad:'linear-gradient(135deg,#e879f9,#a855f7)',engN:11.9,platN:91},
+    {id:'rec-3-3',name:'Makeup by Mia',handle:'@makeupbymia',platform:'tiktok',score:90,followers:'978K',eng:'12.5%',overlap:'80%',grad:'linear-gradient(135deg,#fb923c,#ef4444)',engN:12.5,platN:88},
+    {id:'rec-3-4',name:'Radiant Riley',handle:'@radiantriley',platform:'instagram',score:88,followers:'845K',eng:'9.2%',overlap:'77%',grad:'linear-gradient(135deg,#38bdf8,#3b82f6)',engN:9.2,platN:90},
+    {id:'rec-3-5',name:'Beauty Simplified',handle:'@beautysimplified',platform:'tiktok',score:85,followers:'1.2M',eng:'10.7%',overlap:'72%',grad:'linear-gradient(135deg,#a3e635,#22c55e)',engN:10.7,platN:87},
+  ],
+};
+const DETAILS={
+  'rec-1-1':{interests:[{name:'Skincare',val:42,col:'#4A6CF7'},{name:'Wellness',val:28,col:'#7C8EF8'},{name:'Lifestyle',val:18,col:'#A4B3F9'},{name:'Beauty',val:12,col:'#CCD5FB'}]},
+  'rec-1-2':{interests:[{name:'Skincare',val:48,col:'#4A6CF7'},{name:'Beauty',val:24,col:'#7C8EF8'},{name:'Wellness',val:18,col:'#A4B3F9'},{name:'Lifestyle',val:10,col:'#CCD5FB'}]},
+  'rec-1-3':{interests:[{name:'Wellness',val:38,col:'#4A6CF7'},{name:'Lifestyle',val:32,col:'#7C8EF8'},{name:'Skincare',val:20,col:'#A4B3F9'},{name:'Fitness',val:10,col:'#CCD5FB'}]},
+  'rec-1-4':{interests:[{name:'Skincare',val:44,col:'#4A6CF7'},{name:'Beauty',val:26,col:'#7C8EF8'},{name:'Wellness',val:20,col:'#A4B3F9'},{name:'Lifestyle',val:10,col:'#CCD5FB'}]},
+  'rec-1-5':{interests:[{name:'Beauty',val:40,col:'#4A6CF7'},{name:'Skincare',val:30,col:'#7C8EF8'},{name:'Lifestyle',val:20,col:'#A4B3F9'},{name:'Fashion',val:10,col:'#CCD5FB'}]},
+  'rec-2-1':{interests:[{name:'Wellness',val:45,col:'#4A6CF7'},{name:'Meditation',val:28,col:'#7C8EF8'},{name:'Lifestyle',val:17,col:'#A4B3F9'},{name:'Skincare',val:10,col:'#CCD5FB'}]},
+  'rec-2-2':{interests:[{name:'Wellness',val:40,col:'#4A6CF7'},{name:'Lifestyle',val:30,col:'#7C8EF8'},{name:'Fitness',val:20,col:'#A4B3F9'},{name:'Nutrition',val:10,col:'#CCD5FB'}]},
+  'rec-2-3':{interests:[{name:'Wellness',val:38,col:'#4A6CF7'},{name:'Mindfulness',val:32,col:'#7C8EF8'},{name:'Lifestyle',val:20,col:'#A4B3F9'},{name:'Self-care',val:10,col:'#CCD5FB'}]},
+  'rec-2-4':{interests:[{name:'Wellness',val:42,col:'#4A6CF7'},{name:'Lifestyle',val:28,col:'#7C8EF8'},{name:'Skincare',val:20,col:'#A4B3F9'},{name:'Yoga',val:10,col:'#CCD5FB'}]},
+  'rec-2-5':{interests:[{name:'Wellness',val:46,col:'#4A6CF7'},{name:'Holistic Health',val:26,col:'#7C8EF8'},{name:'Lifestyle',val:18,col:'#A4B3F9'},{name:'Nutrition',val:10,col:'#CCD5FB'}]},
+  'rec-3-1':{interests:[{name:'Beauty',val:44,col:'#4A6CF7'},{name:'Makeup',val:30,col:'#7C8EF8'},{name:'Skincare',val:16,col:'#A4B3F9'},{name:'Fashion',val:10,col:'#CCD5FB'}]},
+  'rec-3-2':{interests:[{name:'Beauty',val:50,col:'#4A6CF7'},{name:'Makeup',val:26,col:'#7C8EF8'},{name:'Skincare',val:14,col:'#A4B3F9'},{name:'Lifestyle',val:10,col:'#CCD5FB'}]},
+  'rec-3-3':{interests:[{name:'Makeup',val:48,col:'#4A6CF7'},{name:'Beauty',val:30,col:'#7C8EF8'},{name:'Skincare',val:14,col:'#A4B3F9'},{name:'Fashion',val:8,col:'#CCD5FB'}]},
+  'rec-3-4':{interests:[{name:'Beauty',val:42,col:'#4A6CF7'},{name:'Skincare',val:28,col:'#7C8EF8'},{name:'Makeup',val:20,col:'#A4B3F9'},{name:'Lifestyle',val:10,col:'#CCD5FB'}]},
+  'rec-3-5':{interests:[{name:'Beauty',val:46,col:'#4A6CF7'},{name:'Makeup',val:28,col:'#7C8EF8'},{name:'Skincare',val:18,col:'#A4B3F9'},{name:'Fashion',val:8,col:'#CCD5FB'}]},
+};
+
+let selectedSeed=null,activeFilters=['audience-match'],saved=new Set(),requested=new Set(),donutChart=null;
+
+function initials(name){return name.split(' ').map(n=>n[0]).join('')}
+function platHtml(p){return p==='instagram'?`<span class="plat-icon plat-ig"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</span>`:`<span class="plat-icon plat-tt"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.72a8.16 8.16 0 0 0 4.77 1.52V6.79a4.85 4.85 0 0 1-1-.1z"/></svg>TikTok</span>`}
+
+function renderSeeds(){
+  document.getElementById('seedGrid').innerHTML=SEEDS.map(s=>`
+    <button class="seed-btn${selectedSeed===s.id?' active':''}" onclick="selectSeed('${s.id}')">
+      <div class="seed-row-inner">
+        <div class="seed-avatar" style="background:${s.grad}">${initials(s.name)}</div>
+        <div>
+          <div class="seed-name">${s.name}</div>
+          <div class="seed-handle">${platHtml(s.platform)}<span>${s.handle}</span></div>
+        </div>
+      </div>
+      <div class="seed-pills">
+        <span class="seed-pill">${s.followers} followers</span>
+        <span class="seed-pill">${s.eng} engagement</span>
+      </div>
+    </button>`).join('');
+}
+
+function selectSeed(id){
+  selectedSeed=id;closeDrawer();renderSeeds();
+  document.getElementById('filterCard').style.display='flex';
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('listHeader').style.display='block';
+  renderList();
+}
+
+function toggleChip(el){
+  const f=el.dataset.filter;
+  if(activeFilters.includes(f)){activeFilters=activeFilters.filter(x=>x!==f);el.className='chip inactive';}
+  else{activeFilters.push(f);el.className='chip active-chip';}
+  if(selectedSeed)renderList();
+}
+
+function getSorted(){
+  let list=[...(RECS[selectedSeed]||[])];
+  const prio=activeFilters[0];
+  if(prio==='engagement-rate')list.sort((a,b)=>b.engN-a.engN);
+  else if(prio==='platform-fit')list.sort((a,b)=>b.platN-a.platN);
+  else list.sort((a,b)=>b.score-a.score);
+  return list;
+}
+
+function renderList(){
+  const list=getSorted();
+  document.getElementById('creatorList').innerHTML=list.map((c,i)=>`
+    <div class="creator-item" id="ci-${c.id}" style="animation-delay:${i*50}ms" onclick="openDrawer('${c.id}')">
+      <div class="cr-avatar" style="background:${c.grad}">${initials(c.name)}</div>
+      <div class="cr-info">
+        <div class="cr-top"><span class="cr-name">${c.name}</span><span class="cr-badge">${c.score}% Match</span></div>
+        <div class="cr-handle-row">${platHtml(c.platform)}<span>${c.handle}</span></div>
+        <div class="cr-stats">
+          <span class="stat-pill"><span>Followers:</span><strong>${c.followers}</strong></span>
+          <span class="stat-pill"><span>Avg. Engagement:</span><strong>${c.eng}</strong></span>
+          <span class="stat-pill"><span>Audience Overlap:</span><strong>${c.overlap}</strong></span>
+        </div>
+      </div>
+      <div class="cr-actions" onclick="event.stopPropagation()">
+        <button class="btn-save${saved.has(c.id)?' saved-state':''}" onclick="toggleSave('${c.id}')">
+          ${saved.has(c.id)?`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Saved`:`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Save Lead`}
+        </button>
+        <button class="btn-req${requested.has(c.id)?' sent-state':''}" onclick="reqRights('${c.id}')">
+          ${requested.has(c.id)?`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Sent`:'Request Rights'}
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+function toggleSave(id){saved.has(id)?saved.delete(id):saved.add(id);renderList();}
+function reqRights(id){
+  if(requested.has(id))return;
+  requested.add(id);renderList();
+  setTimeout(()=>{requested.delete(id);renderList();},2500);
+}
+
+function openDrawer(id){
+  const allRecs=Object.values(RECS).flat();
+  const c=allRecs.find(x=>x.id===id);
+  const det=DETAILS[id];
+  const seed=SEEDS.find(s=>s.id===selectedSeed);
+  if(!c||!det)return;
+  const body=document.getElementById('drawerBody');
+  body.innerHTML=`
+    <div class="drawer-creator-row">
+      <div class="cr-avatar" style="background:${c.grad};width:56px;height:56px;font-size:18px">${initials(c.name)}</div>
+      <div><div style="font-size:15px;font-weight:600;color:#0d0d1a">${c.name}</div><div style="font-size:12px;color:#717182;margin-top:3px">${c.handle}</div></div>
+    </div>
+    ${seed?`<div class="similar-box"><div class="similar-label">Similar to</div><div class="similar-row"><span>${seed.name}</span><span class="similar-arrow">→</span><span class="similar-note">Based on audience overlap</span></div></div>`:''}
+    <div class="interests-title">Audience Interests</div>
+    <div class="donut-wrap"><canvas id="drawerDonut" width="160" height="160" role="img" aria-label="Donut chart of audience interests for ${c.name}">Interest breakdown</canvas><div class="donut-center"><div class="donut-pct">${det.interests[0].val}%</div><div class="donut-lbl">${det.interests[0].name}</div></div></div>
+    ${det.interests.map(i=>`<div class="interest-row"><div class="interest-left"><div class="interest-dot" style="background:${i.col}"></div>${i.name}</div><div class="interest-val">${i.val}%</div></div>`).join('')}
+    <button class="btn-outreach" id="outreachBtn" onclick="startOutreach()">Start Outreach</button>
+    <div class="outreach-confirm" id="outreachMsg"></div>`;
+  document.getElementById('overlay').style.display='block';
+  setTimeout(()=>{document.getElementById('overlay').style.opacity='1';},10);
+  document.getElementById('drawer').classList.add('open');
+  if(donutChart){donutChart.destroy();donutChart=null;}
+  const ctx=document.getElementById('drawerDonut').getContext('2d');
+  donutChart=new Chart(ctx,{type:'doughnut',data:{labels:det.interests.map(i=>i.name),datasets:[{data:det.interests.map(i=>i.val),backgroundColor:det.interests.map(i=>i.col),borderWidth:3,borderColor:'#fff',hoverOffset:3}]},options:{responsive:false,cutout:'68%',plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${ctx.parsed}%`}}},animation:{duration:400}}});
+}
+
+function closeDrawer(){
+  document.getElementById('drawer').classList.remove('open');
+  const ov=document.getElementById('overlay');ov.style.opacity='0';
+  setTimeout(()=>{ov.style.display='none';},200);
+  if(donutChart){donutChart.destroy();donutChart=null;}
+}
+
+function startOutreach(){
+  const btn=document.getElementById('outreachBtn');
+  if(!btn||btn.classList.contains('done'))return;
+  btn.classList.add('done');btn.textContent='Outreach Sequence Started ✓';
+  setTimeout(()=>{btn.classList.remove('done');btn.textContent='Start Outreach';},2500);
+}
+
+renderSeeds();
+</script>
